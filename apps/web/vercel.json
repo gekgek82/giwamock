@@ -1,0 +1,4 @@
+{
+  "buildCommand": "cd ../.. && pnpm --filter @giwater/shared build && pnpm --filter @giwater/web build",
+  "installCommand": "cd ../.. && pnpm install"
+}

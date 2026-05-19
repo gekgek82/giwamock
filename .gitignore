@@ -54,3 +54,4 @@ claude.sh
 
 # Agent state
 .omc/
+.vercel
