@@ -1,0 +1,210 @@
+<h2>설계 섹션 3 (수정): 두 페이지 분리</h2>
+<p class="subtitle">/admin/lock 과 /admin/vote — 각 페이지 레이아웃 확인</p>
+
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+
+  <!-- /admin/lock page -->
+  <div style="flex:1;min-width:420px">
+    <div style="font-size:11px;color:#94a3b8;margin-bottom:6px;font-family:monospace">📍 /admin/lock</div>
+    <div style="font-family:monospace;font-size:11px;background:#0f172a;color:#cbd5e1;border-radius:8px;overflow:hidden;border:1px solid #334155">
+
+      <!-- Header bar -->
+      <div style="background:#1e293b;padding:8px 14px;border-bottom:1px solid #334155;display:flex;align-items:center;gap:8px">
+        <span style="color:#6366f1;font-weight:bold">🔒 Lock Dashboard</span>
+        <span style="color:#334155">|</span>
+        <span style="color:#64748b;font-size:9px">veNFT / VotingEscrow activity</span>
+      </div>
+
+      <div style="display:flex;min-height:380px">
+        <!-- Sidebar -->
+        <div style="width:170px;background:#1e293b;border-right:1px solid #334155;display:flex;flex-direction:column;flex-shrink:0">
+          <div style="padding:8px;border-bottom:1px solid #334155">
+            <div style="font-size:8px;color:#64748b;margin-bottom:5px;text-transform:uppercase">Pairs</div>
+            <div style="background:#0f172a;border:1px solid #334155;border-radius:3px;padding:3px 6px;display:flex;align-items:center;gap:3px;margin-bottom:5px">
+              <span style="color:#64748b;font-size:9px">🔍</span>
+              <span style="color:#475569;font-size:9px">Search pairs...</span>
+            </div>
+            <div style="background:#0f172a;border:1px solid #334155;border-radius:3px;padding:3px 6px;font-size:9px;color:#94a3b8">🌐 All Pairs</div>
+          </div>
+          <div style="flex:1;padding:5px;display:flex;flex-direction:column;gap:2px">
+            <div style="background:#6366f1;color:white;padding:4px 6px;border-radius:3px;font-size:9px">USDT/WGIWA<br><span style="font-size:7px;color:#c4b5fd">4.2M locked</span></div>
+            <div style="padding:4px 6px;border-radius:3px;font-size:9px;color:#94a3b8">USDC/WGIWA<br><span style="font-size:7px;color:#64748b">2.1M locked</span></div>
+            <div style="padding:4px 6px;border-radius:3px;font-size:9px;color:#94a3b8">ETH/WGIWA<br><span style="font-size:7px;color:#64748b">1.8M locked</span></div>
+            <div style="padding:4px 6px;border-radius:3px;font-size:9px;color:#94a3b8">BTC/WGIWA<br><span style="font-size:7px;color:#64748b">900K locked</span></div>
+          </div>
+        </div>
+
+        <!-- Main content -->
+        <div style="flex:1;display:flex;flex-direction:column;padding:10px;gap:8px">
+          <!-- Stat cards -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <div style="background:#1e293b;border-radius:5px;padding:7px;border-left:3px solid #6366f1">
+              <div style="font-size:7px;color:#64748b;text-transform:uppercase">Total Locked</div>
+              <div style="font-size:15px;color:#6366f1;font-weight:bold">4.2M</div>
+              <div style="font-size:7px;color:#64748b">veNFT amount</div>
+            </div>
+            <div style="background:#1e293b;border-radius:5px;padding:7px;border-left:3px solid #8b5cf6">
+              <div style="font-size:7px;color:#64748b;text-transform:uppercase">Active Locks</div>
+              <div style="font-size:15px;color:#8b5cf6;font-weight:bold">312</div>
+              <div style="font-size:7px;color:#64748b">positions</div>
+            </div>
+            <div style="background:#1e293b;border-radius:5px;padding:7px;border-left:3px solid #10b981">
+              <div style="font-size:7px;color:#64748b;text-transform:uppercase">Avg Duration</div>
+              <div style="font-size:15px;color:#10b981;font-weight:bold">182d</div>
+              <div style="font-size:7px;color:#64748b">remaining</div>
+            </div>
+          </div>
+          <!-- Lock chart -->
+          <div style="background:#1e293b;border-radius:5px;padding:8px">
+            <div style="font-size:8px;color:#6366f1;font-weight:bold;margin-bottom:6px">📈 Total Locked Over Time (by epoch)</div>
+            <div style="background:#0f172a;height:70px;border-radius:3px;display:flex;align-items:flex-end;padding:5px;gap:3px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#6366f1;width:100%;height:30px;border-radius:2px 2px 0 0;opacity:0.5"></div><div style="font-size:6px;color:#64748b">#8</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#6366f1;width:100%;height:40px;border-radius:2px 2px 0 0;opacity:0.6"></div><div style="font-size:6px;color:#64748b">#9</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#6366f1;width:100%;height:45px;border-radius:2px 2px 0 0;opacity:0.7"></div><div style="font-size:6px;color:#64748b">#10</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#6366f1;width:100%;height:55px;border-radius:2px 2px 0 0;opacity:0.8"></div><div style="font-size:6px;color:#64748b">#11</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#6366f1;width:100%;height:62px;border-radius:2px 2px 0 0"></div><div style="font-size:6px;color:#64748b">#12</div></div>
+            </div>
+          </div>
+          <!-- Lock transactions -->
+          <div style="background:#1e293b;border-radius:5px;padding:8px;flex:1">
+            <div style="font-size:8px;color:#6366f1;font-weight:bold;margin-bottom:6px">🔒 Recent Lock Events</div>
+            <div style="display:flex;flex-direction:column;gap:4px;font-size:8px">
+              <div style="background:#0f172a;padding:4px;border-radius:3px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#6366f1">DEPOSIT</span><span style="color:#64748b">2m ago</span></div>
+                <div style="color:#94a3b8">0xabc...123 · 50,000 · lock #42 · ends 2027-05-14</div>
+              </div>
+              <div style="background:#0f172a;padding:4px;border-radius:3px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#8b5cf6">EXTEND</span><span style="color:#64748b">15m ago</span></div>
+                <div style="color:#94a3b8">0xdef...456 · lock #18 +90d · ends 2027-08-12</div>
+              </div>
+              <div style="background:#0f172a;padding:4px;border-radius:3px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#ef4444">WITHDRAW</span><span style="color:#64748b">1h ago</span></div>
+                <div style="color:#94a3b8">0xaaa...789 · 12,000 · lock #7</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /admin/vote page -->
+  <div style="flex:1;min-width:420px">
+    <div style="font-size:11px;color:#94a3b8;margin-bottom:6px;font-family:monospace">📍 /admin/vote</div>
+    <div style="font-family:monospace;font-size:11px;background:#0f172a;color:#cbd5e1;border-radius:8px;overflow:hidden;border:1px solid #334155">
+
+      <!-- Header bar -->
+      <div style="background:#1e293b;padding:8px 14px;border-bottom:1px solid #334155;display:flex;align-items:center;gap:8px">
+        <span style="color:#10b981;font-weight:bold">🗳 Vote Dashboard</span>
+        <span style="color:#334155">|</span>
+        <span style="color:#64748b;font-size:9px">Voter / per-pair vote weight</span>
+      </div>
+
+      <div style="display:flex;min-height:380px">
+        <!-- Sidebar -->
+        <div style="width:170px;background:#1e293b;border-right:1px solid #334155;display:flex;flex-direction:column;flex-shrink:0">
+          <div style="padding:8px;border-bottom:1px solid #334155">
+            <div style="font-size:8px;color:#64748b;margin-bottom:5px;text-transform:uppercase">Pairs</div>
+            <div style="background:#0f172a;border:1px solid #334155;border-radius:3px;padding:3px 6px;display:flex;align-items:center;gap:3px;margin-bottom:5px">
+              <span style="color:#64748b;font-size:9px">🔍</span>
+              <span style="color:#475569;font-size:9px">Search pairs...</span>
+            </div>
+            <div style="background:#0f172a;border:1px solid #334155;border-radius:3px;padding:3px 6px;font-size:9px;color:#94a3b8">🌐 All Pairs</div>
+          </div>
+          <div style="flex:1;padding:5px;display:flex;flex-direction:column;gap:2px">
+            <div style="background:#10b981;color:white;padding:4px 6px;border-radius:3px;font-size:9px">USDT/WGIWA<br><span style="font-size:7px;color:#d1fae5">38% VP · 312 voters</span></div>
+            <div style="padding:4px 6px;border-radius:3px;font-size:9px;color:#94a3b8">USDC/WGIWA<br><span style="font-size:7px;color:#64748b">22% VP · 147</span></div>
+            <div style="padding:4px 6px;border-radius:3px;font-size:9px;color:#94a3b8">ETH/WGIWA<br><span style="font-size:7px;color:#64748b">18% VP · 98</span></div>
+            <div style="padding:4px 6px;border-radius:3px;font-size:9px;color:#94a3b8">BTC/WGIWA<br><span style="font-size:7px;color:#64748b">12% VP · 64</span></div>
+          </div>
+        </div>
+
+        <!-- Main content -->
+        <div style="flex:1;display:flex;flex-direction:column;padding:10px;gap:8px">
+          <!-- Stat cards -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <div style="background:#1e293b;border-radius:5px;padding:7px;border-left:3px solid #10b981">
+              <div style="font-size:7px;color:#64748b;text-transform:uppercase">Vote Weight</div>
+              <div style="font-size:15px;color:#10b981;font-weight:bold">38.2%</div>
+              <div style="font-size:7px;color:#64748b">of epoch VP</div>
+            </div>
+            <div style="background:#1e293b;border-radius:5px;padding:7px;border-left:3px solid #f59e0b">
+              <div style="font-size:7px;color:#64748b;text-transform:uppercase">Unique Voters</div>
+              <div style="font-size:15px;color:#f59e0b;font-weight:bold">312</div>
+              <div style="font-size:7px;color:#64748b">this epoch</div>
+            </div>
+            <div style="background:#1e293b;border-radius:5px;padding:7px;border-left:3px solid #6366f1">
+              <div style="font-size:7px;color:#64748b;text-transform:uppercase">Epoch</div>
+              <div style="font-size:15px;color:#6366f1;font-weight:bold">#12</div>
+              <div style="font-size:7px;color:#64748b">current</div>
+            </div>
+          </div>
+          <!-- Charts row: bar + pie side by side -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div style="background:#1e293b;border-radius:5px;padding:8px">
+              <div style="font-size:8px;color:#10b981;font-weight:bold;margin-bottom:6px">📊 Vote Weight by Epoch</div>
+              <div style="background:#0f172a;height:65px;border-radius:3px;display:flex;align-items:flex-end;padding:4px;gap:2px">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#10b981;width:100%;height:28px;border-radius:2px 2px 0 0;opacity:0.5"></div><div style="font-size:6px;color:#64748b">#8</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#10b981;width:100%;height:38px;border-radius:2px 2px 0 0;opacity:0.6"></div><div style="font-size:6px;color:#64748b">#9</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#10b981;width:100%;height:42px;border-radius:2px 2px 0 0;opacity:0.7"></div><div style="font-size:6px;color:#64748b">#10</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#10b981;width:100%;height:50px;border-radius:2px 2px 0 0;opacity:0.8"></div><div style="font-size:6px;color:#64748b">#11</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1"><div style="background:#10b981;width:100%;height:58px;border-radius:2px 2px 0 0"></div><div style="font-size:6px;color:#64748b">#12</div></div>
+              </div>
+            </div>
+            <div style="background:#1e293b;border-radius:5px;padding:8px">
+              <div style="font-size:8px;color:#f59e0b;font-weight:bold;margin-bottom:6px">🥧 Epoch #12 Distribution</div>
+              <div style="background:#0f172a;height:65px;border-radius:3px;display:flex;align-items:center;justify-content:center;gap:8px">
+                <div style="width:50px;height:50px;border-radius:50%;background:conic-gradient(#10b981 0% 38%, #6366f1 38% 60%, #f59e0b 60% 78%, #334155 78% 100%)"></div>
+                <div style="display:flex;flex-direction:column;gap:3px;font-size:7px">
+                  <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;background:#10b981;border-radius:1px"></div>USDT 38%</div>
+                  <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;background:#6366f1;border-radius:1px"></div>USDC 22%</div>
+                  <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;background:#f59e0b;border-radius:1px"></div>ETH 18%</div>
+                  <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;background:#334155;border-radius:1px"></div>Others 22%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Vote transactions -->
+          <div style="background:#1e293b;border-radius:5px;padding:8px;flex:1">
+            <div style="font-size:8px;color:#10b981;font-weight:bold;margin-bottom:6px">🗳 Recent Vote Events</div>
+            <div style="display:flex;flex-direction:column;gap:4px;font-size:8px">
+              <div style="background:#0f172a;padding:4px;border-radius:3px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#10b981">VOTED</span><span style="color:#64748b">8m ago</span></div>
+                <div style="color:#94a3b8">0xdef...456 · lock #18 · 12% VP · USDT/WGIWA · Epoch #12</div>
+              </div>
+              <div style="background:#0f172a;padding:4px;border-radius:3px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#10b981">VOTED</span><span style="color:#64748b">22m ago</span></div>
+                <div style="color:#94a3b8">0xbbb...321 · lock #31 · 8% VP · USDT/WGIWA · Epoch #12</div>
+              </div>
+              <div style="background:#0f172a;padding:4px;border-radius:3px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#f59e0b">ABSTAINED</span><span style="color:#64748b">1h ago</span></div>
+                <div style="color:#94a3b8">0xccc...654 · lock #5 · reset · USDT/WGIWA · Epoch #12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:16px;background:#1e293b;border-radius:8px;padding:12px;font-family:monospace;font-size:10px;color:#94a3b8">
+  <div style="color:#f1f5f9;font-weight:bold;margin-bottom:8px">페이지 분리 요약</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div>
+      <div style="color:#6366f1;margin-bottom:4px">🔒 /admin/lock</div>
+      <div>• ve_lock_positions, ve_lock_events 기반</div>
+      <div>• 통계: 총 locked, 활성 locks, 평균 잔여기간</div>
+      <div>• 차트: 에포크별 총 locked 추이 (bar)</div>
+      <div>• 테이블: DEPOSIT / EXTEND / WITHDRAW 이벤트</div>
+    </div>
+    <div>
+      <div style="color:#10b981;margin-bottom:4px">🗳 /admin/vote</div>
+      <div>• voter_vote_positions, voter_vote_events 기반</div>
+      <div>• 통계: VP 비율, 고유 투표자, 현재 에포크</div>
+      <div>• 차트: 에포크별 vote weight (bar) + 분포 (pie)</div>
+      <div>• 테이블: VOTED / ABSTAINED 이벤트</div>
+    </div>
+  </div>
+</div>

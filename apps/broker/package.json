@@ -1,0 +1,58 @@
+{
+  "name": "@giwater/broker",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "pnpm --filter @giwater/shared build && nest build",
+    "dev": "nest start --watch",
+    "start": "nest start",
+    "start:prod": "node dist/main.js",
+    "railway:prune-indexer-derived": "bash scripts/prune-indexer-derived.sh",
+    "replay:indexed-events": "node dist/cli/replay-indexed-events.main.js",
+    "prune:time-buckets": "node dist/cli/prune-time-buckets.main.js",
+    "ohlcv:pipeline": "node dist/cli/ohlcv-pipeline.main.js",
+    "spot-token-bf-sync": "node dist/cli/spot-token-bf-sync.main.js",
+    "backfill:cumulative-buckets": "node dist/cli/backfill-cumulative-buckets.main.js",
+    "typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
+    "migration:run": "pnpm typeorm migration:run",
+    "migration:revert": "pnpm typeorm migration:revert",
+    "migration:generate": "pnpm typeorm migration:generate",
+    "migration:show": "pnpm typeorm migration:show",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@giwater/shared": "workspace:*",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.1.0",
+    "@nestjs/swagger": "^11.2.5",
+    "@nestjs/typeorm": "^11.0.0",
+    "amqp-connection-manager": "^4.1.14",
+    "amqplib": "^0.10.4",
+    "pg": "^8.17.2",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
+    "typeorm": "^0.3.28",
+    "viem": "^2.38.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@types/amqplib": "^0.10.6",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "eslint": "^9.18.0",
+    "globals": "^16.0.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

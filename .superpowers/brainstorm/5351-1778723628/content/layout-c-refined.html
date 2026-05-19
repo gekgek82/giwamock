@@ -1,0 +1,116 @@
+<h2>C 레이아웃 — 검색바 포함 상세</h2>
+<p class="subtitle">페어 사이드바 + Lock/Vote 통합 대시보드</p>
+
+<div class="mockup">
+  <div class="mockup-header">Admin › Lock/Vote Dashboard</div>
+  <div class="mockup-body" style="display:flex;gap:0;min-height:420px;font-family:monospace;font-size:11px;background:#0f172a;color:#cbd5e1">
+
+    <!-- Sidebar -->
+    <div style="width:200px;background:#1e293b;border-right:1px solid #334155;display:flex;flex-direction:column">
+      <div style="padding:10px;border-bottom:1px solid #334155">
+        <div style="font-size:9px;color:#64748b;margin-bottom:6px;letter-spacing:0.05em">PAIRS</div>
+        <div style="background:#0f172a;border:1px solid #334155;border-radius:4px;padding:5px 8px;display:flex;align-items:center;gap:4px">
+          <span style="color:#64748b;font-size:10px">🔍</span>
+          <span style="color:#475569;font-size:10px">Search pairs...</span>
+        </div>
+      </div>
+      <div style="flex:1;overflow:auto;padding:6px">
+        <div style="background:#6366f1;color:white;padding:6px 8px;border-radius:4px;margin-bottom:2px;font-size:10px">
+          USDT / WGIWA<br><span style="font-size:8px;color:#c4b5fd">Lock 4.2M · Vote 38%</span>
+        </div>
+        <div style="padding:6px 8px;border-radius:4px;margin-bottom:2px;font-size:10px;color:#94a3b8">
+          USDC / WGIWA<br><span style="font-size:8px;color:#64748b">Lock 2.1M · Vote 22%</span>
+        </div>
+        <div style="padding:6px 8px;border-radius:4px;margin-bottom:2px;font-size:10px;color:#94a3b8">
+          ETH / WGIWA<br><span style="font-size:8px;color:#64748b">Lock 1.8M · Vote 18%</span>
+        </div>
+        <div style="padding:6px 8px;border-radius:4px;margin-bottom:2px;font-size:10px;color:#94a3b8">
+          BTC / WGIWA<br><span style="font-size:8px;color:#64748b">Lock 900K · Vote 12%</span>
+        </div>
+        <div style="padding:6px 8px;border-radius:4px;font-size:10px;color:#94a3b8">
+          DAI / WGIWA<br><span style="font-size:8px;color:#64748b">Lock 400K · Vote 10%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div style="flex:1;display:flex;flex-direction:column">
+
+      <!-- Header -->
+      <div style="padding:10px 14px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:13px;font-weight:bold">USDT / WGIWA</div>
+          <div style="font-size:9px;color:#64748b">0x964c...475a · 0xd5b2...401c</div>
+        </div>
+        <div style="font-size:9px;color:#64748b">Epoch #12 · Refreshes in 3d 14h</div>
+      </div>
+
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:10px 14px">
+        <div style="background:#1e293b;border-radius:6px;padding:8px;border-left:3px solid #6366f1">
+          <div style="font-size:8px;color:#64748b">TOTAL LOCKED</div>
+          <div style="font-size:16px;color:#6366f1;font-weight:bold">4.2M</div>
+          <div style="font-size:8px;color:#64748b">tPOINT</div>
+        </div>
+        <div style="background:#1e293b;border-radius:6px;padding:8px;border-left:3px solid #8b5cf6">
+          <div style="font-size:8px;color:#64748b">ACTIVE LOCKS</div>
+          <div style="font-size:16px;color:#8b5cf6;font-weight:bold">312</div>
+          <div style="font-size:8px;color:#64748b">positions</div>
+        </div>
+        <div style="background:#1e293b;border-radius:6px;padding:8px;border-left:3px solid #10b981">
+          <div style="font-size:8px;color:#64748b">TOTAL VOTES</div>
+          <div style="font-size:16px;color:#10b981;font-weight:bold">38%</div>
+          <div style="font-size:8px;color:#64748b">of epoch VP</div>
+        </div>
+        <div style="background:#1e293b;border-radius:6px;padding:8px;border-left:3px solid #f59e0b">
+          <div style="font-size:8px;color:#64748b">UNIQUE VOTERS</div>
+          <div style="font-size:16px;color:#f59e0b;font-weight:bold">147</div>
+          <div style="font-size:8px;color:#64748b">this epoch</div>
+        </div>
+      </div>
+
+      <!-- Charts row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px;flex:1">
+        <!-- Lock chart -->
+        <div style="background:#1e293b;border-radius:6px;padding:8px">
+          <div style="font-size:9px;color:#6366f1;margin-bottom:8px;font-weight:bold">🔒 LOCK — Total Locked Over Time</div>
+          <div style="background:#0f172a;height:80px;border-radius:4px;display:flex;align-items:flex-end;padding:6px;gap:3px;position:relative">
+            <div style="background:#6366f1;width:10px;height:30px;border-radius:2px 2px 0 0;opacity:0.5"></div>
+            <div style="background:#6366f1;width:10px;height:45px;border-radius:2px 2px 0 0;opacity:0.6"></div>
+            <div style="background:#6366f1;width:10px;height:40px;border-radius:2px 2px 0 0;opacity:0.6"></div>
+            <div style="background:#6366f1;width:10px;height:55px;border-radius:2px 2px 0 0;opacity:0.7"></div>
+            <div style="background:#6366f1;width:10px;height:50px;border-radius:2px 2px 0 0;opacity:0.7"></div>
+            <div style="background:#6366f1;width:10px;height:65px;border-radius:2px 2px 0 0;opacity:0.9"></div>
+            <div style="background:#6366f1;width:10px;height:70px;border-radius:2px 2px 0 0"></div>
+          </div>
+        </div>
+        <!-- Vote chart -->
+        <div style="background:#1e293b;border-radius:6px;padding:8px">
+          <div style="font-size:9px;color:#10b981;margin-bottom:8px;font-weight:bold">🗳 VOTE — Epoch Vote Distribution</div>
+          <div style="background:#0f172a;height:80px;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;font-size:8px">
+              <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;background:#10b981;border-radius:2px"></div> USDT/WGIWA 38%</div>
+              <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;background:#6366f1;border-radius:2px"></div> USDC/WGIWA 22%</div>
+              <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;background:#f59e0b;border-radius:2px"></div> ETH/WGIWA 18%</div>
+              <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;background:#64748b;border-radius:2px"></div> Others 22%</div>
+            </div>
+            <div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(#10b981 0% 38%, #6366f1 38% 60%, #f59e0b 60% 78%, #334155 78% 100%)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent transactions -->
+      <div style="padding:10px 14px;margin-top:8px">
+        <div style="background:#1e293b;border-radius:6px;padding:8px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px">RECENT TRANSACTIONS</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:9px">
+            <div style="display:flex;justify-content:space-between"><span style="color:#6366f1">LOCK</span><span>0xabc...123 locked 50,000 tPT for 365d</span><span style="color:#64748b">2m ago</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#10b981">VOTE</span><span>0xdef...456 voted 12% VP → USDT/WGIWA</span><span style="color:#64748b">8m ago</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#8b5cf6">EXTEND</span><span>0xaaa...789 extended lock #12 by 90d</span><span style="color:#64748b">15m ago</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+.next
+.turbo
+
+# Database
+*.db
+*.db-journal
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+
+# oh-my-claudecode state
+.omc
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage
+
+# Misc
+*.tsbuildinfo
+
+temp/
+
+next-env.d.ts
+
+# Playwright MCP browser automation artifacts
+.playwright-mcp/
+
+# Local agent scratch files
+claude.sh
+*.png
+!apps/web/public/**/*.png
+
+# Agent state
+.omc/

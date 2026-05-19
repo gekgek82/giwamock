@@ -1,0 +1,398 @@
+@import "tailwindcss";
+
+/* Custom Theme */
+@theme {
+  /* Font Family - Inter for English/Numbers, Spoqa Han Sans Neo for Korean (fallback) */
+  --font-sans:
+    "Inter", "Spoqa Han Sans Neo", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Heading Styles */
+  --font-size-heading-1: 48px;
+  --line-height-heading-1: 72px;
+  --font-size-heading-2: 40px;
+  --line-height-heading-2: 60px;
+  --font-size-heading-3: 32px;
+  --line-height-heading-3: 48px;
+  --font-size-heading-4: 28px;
+  --line-height-heading-4: 42px;
+  --font-size-heading-5: 24px;
+  --line-height-heading-5: 36px;
+  --font-size-heading-6: 20px;
+  --line-height-heading-6: 30px;
+
+  /* Body Styles */
+  --font-size-body-28: 28px;
+  --line-height-body-28: 42px;
+  --font-size-body-24: 24px;
+  --line-height-body-24: 36px;
+  --font-size-body-20: 20px;
+  --line-height-body-20: 30px;
+  --font-size-body-16: 16px;
+  --line-height-body-16: 24px;
+  --font-size-body-14: 14px;
+  --line-height-body-14: 21px;
+  --font-size-body-12: 12px;
+  --line-height-body-12: 18px;
+
+  /* Primary Colors */
+  --color-primary-100: #00fea2; /* primary */
+  --color-primary-200: #00d185; /* primary 2 */
+  --color-primary-300: #00a668;
+  --color-primary-400: #007d4d;
+  --color-primary-500: #005634;
+  --color-primary-600: #00321c;
+  --color-primary-700: #001509;
+  --color-primary-800: #000e06;
+  --color-primary-900: #000804;
+  --color-primary-1000: #000402;
+
+  /* Neutral Colors */
+  --color-neutral-50: #ffffff;
+  --color-neutral-100: #f4f4f4;
+  --color-neutral-200: #e6e6e6;
+  --color-neutral-300: #dedede;
+  --color-neutral-400: #cdcdcd;
+  --color-neutral-500: #c2c2c2;
+  --color-neutral-600: #afafaf;
+  --color-neutral-700: #808080;
+  --color-neutral-800: #767676;
+  --color-neutral-900: #595959;
+  --color-neutral-1000: #1f1f1f;
+
+  /* Orange Colors */
+  --color-orange-100: #ff4800;
+  --color-orange-200: #b34629;
+
+  /* ── Figma Design Tokens (Light) ── */
+  /* Brand */
+  --color-brand-green: #00fea2;
+  --color-brand-white: #ffffff;
+  --color-brand-black: #000000;
+  --color-brand-bg: #f3f4f6;
+
+  /* Green */
+  --color-green-10: #00d185;
+  --color-green-20: #00a668;
+  --color-green-30: #007d4d;
+
+  /* Gray */
+  --color-gray-10: #f8fafc;
+  --color-gray-20: #f1f5f9;
+  --color-gray-30: #e2e8f0;
+  --color-gray-40: #cbd5e1;
+  --color-gray-50: #94a3b8;
+  --color-gray-60: #64748b;
+  --color-gray-70: #475569;
+  --color-gray-80: #334155;
+  --color-gray-90: #1e293b;
+  --color-gray-100: #0f172a;
+
+  /* Red */
+  --color-red-10: #ffe8e7;
+  --color-red-20: #ff716d;
+  --color-red-30: #ff3737;
+  --color-red-40: #ff360e;
+
+  /* Blue */
+  --color-blue-200: #ecf6ff;
+  --color-blue-300: #cfe2f8;
+  --color-blue-400: #bdd8f6;
+  --color-blue-500: #8cb9ea;
+  --color-blue-600: #63a1e3;
+  --color-blue-700: #2097ff;
+  --color-blue-800: #018af1;
+  --color-blue-900: #0068ca;
+  --color-blue-1000: #043560;
+
+  /* ── Admin Design System (Vercel-inspired) ── */
+  --font-geist:
+    "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geist-mono: "Geist Mono", "SF Mono", Monaco, Consolas, monospace;
+
+  /* Backgrounds */
+  --color-ds-background-100: #000000;
+  --color-ds-background-200: #0a0a0a;
+
+  /* Gray scale */
+  --color-ds-gray-100: #111111;
+  --color-ds-gray-200: #1a1a1a;
+  --color-ds-gray-300: #222222;
+  --color-ds-gray-400: #333333;
+  --color-ds-gray-500: #555555;
+  --color-ds-gray-600: #666666;
+  --color-ds-gray-700: #888888;
+  --color-ds-gray-800: #a1a1a1;
+  --color-ds-gray-900: #ededed;
+  --color-ds-gray-1000: #ffffff;
+
+  /* Accents */
+  --color-ds-blue-400: #52a8ff;
+  --color-ds-blue-700: #0070f3;
+  --color-ds-blue-900: #0050b3;
+  --color-ds-red-400: #ff6166;
+  --color-ds-red-700: #ee0000;
+  --color-ds-green-400: #3fcf8e;
+  --color-ds-green-700: #0cce6b;
+  --color-ds-yellow-400: #ffcc00;
+  --color-ds-yellow-700: #f5a623;
+  --color-ds-purple-400: #bf7af0;
+  --color-ds-purple-700: #7928ca;
+  --color-ds-cyan-400: #79ffe1;
+  --color-ds-cyan-700: #50e3c2;
+}
+
+/* Light Theme Variables */
+:root {
+  --background: #fff;
+  --background-secondary: #ffffff;
+  --card-bg: #ffffff;
+  --card-border: #e6e6e6;
+  --input-bg: #cfe2f8;
+  --primary: #00fea2;
+  --primary-hover: #00a668;
+  --text-primary: #1f1f1f;
+  --text-secondary: #808080;
+  --text-tertiary: #afafaf;
+}
+
+/* Base Styles */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdcdcd;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #afafaf;
+}
+
+/* Table Header Reset */
+th {
+  font-weight: inherit;
+}
+
+/* Button Reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Typography Utility Classes */
+
+/* Headings - Bold (700) */
+.heading-1 {
+  font-size: var(--font-size-heading-1);
+  line-height: var(--line-height-heading-1);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.heading-2 {
+  font-size: var(--font-size-heading-2);
+  line-height: var(--line-height-heading-2);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.heading-3 {
+  font-size: var(--font-size-heading-3);
+  line-height: var(--line-height-heading-3);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.heading-4 {
+  font-size: var(--font-size-heading-4);
+  line-height: var(--line-height-heading-4);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.heading-5 {
+  font-size: var(--font-size-heading-5);
+  line-height: var(--line-height-heading-5);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.heading-6 {
+  font-size: var(--font-size-heading-6);
+  line-height: var(--line-height-heading-6);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* Body - Regular (400) */
+.body-28 {
+  font-size: var(--font-size-body-28);
+  line-height: var(--line-height-body-28);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.body-24 {
+  font-size: var(--font-size-body-24);
+  line-height: var(--line-height-body-24);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.body-20 {
+  font-size: var(--font-size-body-20);
+  line-height: var(--line-height-body-20);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.body-16 {
+  font-size: var(--font-size-body-16);
+  line-height: var(--line-height-body-16);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.body-14 {
+  font-size: var(--font-size-body-14);
+  line-height: var(--line-height-body-14);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.body-12 {
+  font-size: var(--font-size-body-12);
+  line-height: var(--line-height-body-12);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Body - Medium (500) */
+.body-16-medium {
+  font-size: var(--font-size-body-16);
+  line-height: var(--line-height-body-16);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.body-14-medium {
+  font-size: var(--font-size-body-14);
+  line-height: var(--line-height-body-14);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* Body - Semibold (600) */
+.body-16-semibold {
+  font-size: var(--font-size-body-16);
+  line-height: var(--line-height-body-16);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Body - Bold (700) */
+.body-16-bold {
+  font-size: var(--font-size-body-16);
+  line-height: var(--line-height-body-16);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.body-14-bold {
+  font-size: var(--font-size-body-14);
+  line-height: var(--line-height-body-14);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.body-12-bold {
+  font-size: var(--font-size-body-12);
+  line-height: var(--line-height-body-12);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* Withdraw Slider — used in the shared WithdrawAmountPanel */
+.withdraw-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+}
+
+.withdraw-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: var(--color-primary-200);
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease;
+}
+
+.withdraw-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.05);
+}
+
+.withdraw-slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: var(--color-primary-200);
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease;
+}
+
+.withdraw-slider::-moz-range-thumb:hover {
+  transform: scale(1.05);
+}

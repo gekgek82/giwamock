@@ -1,0 +1,57 @@
+{
+  "name": "giwater",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky",
+    "dev": "bash scripts/dev.sh",
+    "dev:clean": "rm -rf apps/web/.next && bash scripts/dev.sh",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "dev:web": "turbo run dev --filter=@giwater/web",
+    "check:web": "curl -s -o /dev/null -w '%{http_code}' http://localhost:3007",
+    "check:gateway": "curl -s -o /dev/null -w '%{http_code}' http://localhost:3046/api/health",
+    "check:gateway-parity": "bash scripts/check-gateway-parity.sh",
+    "verify:gateway-broker-parity": "node scripts/verify-broker-gateway-parity.mjs",
+    "verify:swap-route-aggregates": "pnpm --filter @giwater/shared build && node scripts/verify-swap-route-aggregates.cjs",
+    "check": "echo \"Web: $(pnpm check:web)\" && echo \"Gateway: $(pnpm check:gateway)\"",
+    "start:amm-indexer": "pnpm --filter amm-indexer railway:start",
+    "dev:amm-indexer": "pnpm --filter amm-indexer dev",
+    "clean:amm-indexer-db": "pnpm --filter amm-indexer clean:amm-indexer-db",
+    "prune:amm-indexer-db": "pnpm --filter amm-indexer db:prune",
+    "dev:broker": "pnpm --filter @giwater/broker dev",
+    "start:broker": "pnpm --filter @giwater/broker start:prod",
+    "prune:broker:time-buckets": "pnpm --filter @giwater/broker prune:time-buckets",
+    "ohlcv:broker:pipeline": "pnpm --filter @giwater/broker build && pnpm --filter @giwater/broker ohlcv:pipeline",
+    "broker:migration:run": "pnpm --filter @giwater/broker migration:run",
+    "broker:migration:generate": "pnpm --filter @giwater/broker migration:generate",
+    "broker:migration:revert": "pnpm --filter @giwater/broker migration:revert",
+    "broker:migration:show": "pnpm --filter @giwater/broker migration:show",
+    "broker:replay:indexed-events": "pnpm --filter @giwater/broker build && pnpm --filter @giwater/broker replay:indexed-events",
+    "dev:gateway": "pnpm --filter @giwater/gateway dev",
+    "build:gateway": "pnpm --filter @giwater/gateway build",
+    "start:gateway": "pnpm --filter @giwater/gateway start:prod",
+    "railway:gateway:build": "pnpm install --frozen-lockfile && pnpm --filter @giwater/gateway build",
+    "railway:gateway:start": "pnpm --filter @giwater/gateway start:prod",
+    "railway:broker:build": "pnpm install --frozen-lockfile && pnpm --filter @giwater/broker build",
+    "railway:broker:start": "pnpm --filter @giwater/broker start:prod",
+    "railway:amm-indexer:build": "pnpm install --frozen-lockfile && pnpm --filter amm-indexer railway:build",
+    "railway:amm-indexer:start": "pnpm --filter amm-indexer railway:start",
+    "railway:amm-indexer:prune": "pnpm --filter amm-indexer railway:prune",
+    "railway:config-service:build": "pnpm install --frozen-lockfile && pnpm --filter @giwater/config-service build",
+    "railway:config-service:start": "pnpm --filter @giwater/config-service start:prod"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "tailwindcss": "^4",
+    "turbo": "^2.0.0",
+    "vitest": "^2.1.9"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,99 @@
+---
+description: Shared package development rules
+globs: packages/shared/**/*.ts
+alwaysApply: false
+---
+
+# Shared Package Rules
+
+## Purpose
+
+The `@giwater/shared` package is the single source of truth for:
+- TypeScript types and interfaces
+- DTOs with validation decorators
+- API route constants
+- Shared utilities
+
+## File Structure
+
+```
+packages/shared/src/
+├── index.ts         # Main exports (no @nestjs/swagger)
+├── nest/
+│   └── swagger.ts   # Re-exports *Swagger DTOs only; subpath @giwater/shared/nest/swagger
+├── types/
+│   └── index.ts     # Interfaces and types
+├── constants/
+│   └── index.ts     # API routes, constants
+└── utils/           # Shared utilities (optional)
+```
+
+## Adding New Types
+
+1. Add to `packages/shared/src/types/index.ts`
+2. Export from `packages/shared/src/index.ts`
+3. Run `pnpm build` in shared package
+
+```typescript
+// types/index.ts
+export interface NewType {
+  id: string;
+  name: string;
+}
+
+// index.ts
+export * from './types';
+```
+
+## Adding DTOs
+
+```typescript
+import { IsString, IsEmail } from 'class-validator';
+
+export class CreateUserDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  name: string;
+}
+```
+
+## NestJS OpenAPI (`@ApiProperty`) — **never** through the main barrel
+
+Classes decorated with `@nestjs/swagger` **must not** be exported from `packages/shared/src/dto/index.ts` or the root `index.ts`. If they ship inside `@giwater/shared`, Next.js (`apps/web`) pulls `@nestjs/swagger` → `@nestjs/core` into the client bundle and builds fail (e.g. missing `@nestjs/microservices`).
+
+**Do this instead:**
+
+1. Implement Swagger DTO classes under `packages/shared/src/dto/*.swagger.ts` (or next to the interface).
+2. Re-export them **only** from `packages/shared/src/nest/swagger.ts` (single entry for OpenAPI classes).
+3. Register the second tsup entry in `packages/shared/tsup.config.ts`: `src/nest/swagger.ts` → `dist/nest/swagger.{js,cjs}` + `.d.ts`.
+4. In `packages/shared/package.json` `exports`, add:
+
+   ```json
+   "./nest/swagger": {
+     "types": "./dist/nest/swagger.d.ts",
+     "import": "./dist/nest/swagger.js",
+     "require": "./dist/nest/swagger.cjs"
+   }
+   ```
+
+5. **Broker / gateway only:** import decorators from `@giwater/shared/nest/swagger`:
+
+   ```typescript
+   import { SomeResponseSwaggerDto } from '@giwater/shared/nest/swagger';
+   ```
+
+6. Keep plain interfaces / types / runtime constants on the main package: `import { … } from '@giwater/shared';`
+
+Do **not** add `export * from './*.swagger'` back into `dto/index.ts`.
+
+## After Changes
+
+Always rebuild shared package after changes:
+
+```bash
+pnpm --filter @giwater/shared build
+# or from root
+pnpm build
+```

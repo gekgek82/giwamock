@@ -1,0 +1,40 @@
+[
+  {
+    "inputs": [
+      { "name": "amount", "type": "uint256" },
+      { "name": "nonce", "type": "uint256" },
+      { "name": "seasonId", "type": "uint256" },
+      { "name": "deadline", "type": "uint256" },
+      { "name": "signature", "type": "bytes" }
+    ],
+    "name": "claimPoints",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "name": "user", "type": "address" }],
+    "name": "claimedAmount",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "name": "user", "type": "address" }],
+    "name": "nonces",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "user", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" },
+      { "indexed": false, "name": "seasonId", "type": "uint256" },
+      { "indexed": false, "name": "nonce", "type": "uint256" }
+    ],
+    "name": "PointsClaimed",
+    "type": "event"
+  }
+]

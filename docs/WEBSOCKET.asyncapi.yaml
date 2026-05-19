@@ -1,0 +1,546 @@
+asyncapi: 3.0.0
+
+info:
+  title: GiWater Gateway WebSocket API
+  version: 1.0.0
+  description: |
+    Real-time WebSocket API served by the GiWater Gateway via Socket.IO.
+
+    ## Transport
+
+    The gateway exposes a single Socket.IO namespace at `/` on the same origin as the HTTP API.
+    Both `websocket` and `polling` transports are accepted.
+
+    ```
+    import { io } from 'socket.io-client';
+    const socket = io('https://gateway.giwater.finance', {
+      transports: ['websocket', 'polling'],
+    });
+    ```
+
+    ## Room subscription protocol
+
+    The gateway uses Socket.IO **rooms** to scope events per address.
+    Clients must explicitly subscribe to rooms before receiving room-scoped events.
+
+    **Subscribe:**
+    ```json
+    // emit: "channels.subscribe"
+    { "channels": ["pair:0xABC...", "token:0xDEF..."] }
+    ```
+
+    **Acknowledgement:**
+    ```json
+    // receive: "channels.subscribed"
+    { "clientId": "abc123", "channels": ["pair:0xabc...", "token:0xdef..."] }
+    ```
+
+    **Unsubscribe:**
+    ```json
+    // emit: "channels.unsubscribe"
+    { "channels": ["pair:0xABC..."] }
+    ```
+
+    Channel names are **lowercased** automatically by the server.
+
+    ## Channel name formats
+
+    | Format | Description |
+    |--------|-------------|
+    | `pair:0x{40 hex}` | Events for a specific AMM pool |
+    | `token:0x{40 hex}` | Events for a specific ERC-20 token |
+
+servers:
+  production:
+    host: gateway.giwater.finance
+    pathname: /socket.io
+    protocol: wss
+    description: Production Gateway (Railway)
+    bindings:
+      socketio:
+        headers:
+          type: object
+
+  local:
+    host: localhost:3046
+    pathname: /socket.io
+    protocol: ws
+    description: Local development
+
+defaultContentType: application/json
+
+channels:
+
+  # ─── Subscription control ────────────────────────────────────────────────
+
+  channelsSubscribe:
+    address: channels.subscribe
+    description: |
+      Client → Server. Join one or more Socket.IO rooms.
+      The server normalises all channel names to lowercase.
+      Re-sending this event with the same channels is idempotent.
+    messages:
+      subscribe:
+        $ref: '#/components/messages/ChannelsSubscribeRequest'
+
+  channelsSubscribed:
+    address: channels.subscribed
+    description: |
+      Server → Client (reply). Confirms the rooms the client is now in.
+    messages:
+      subscribed:
+        $ref: '#/components/messages/ChannelsSubscribedResponse'
+
+  channelsUnsubscribe:
+    address: channels.unsubscribe
+    description: Client → Server. Leave one or more Socket.IO rooms.
+    messages:
+      unsubscribe:
+        $ref: '#/components/messages/ChannelsSubscribeRequest'
+
+  channelsUnsubscribed:
+    address: channels.unsubscribed
+    description: Server → Client (reply). Confirms the rooms the client has left.
+    messages:
+      unsubscribed:
+        $ref: '#/components/messages/ChannelsSubscribedResponse'
+
+  ping:
+    address: ping
+    description: Client → Server. Heartbeat / latency check.
+    messages:
+      ping:
+        payload:
+          type: object
+          description: Optional echo payload (any JSON value).
+
+  pong:
+    address: pong
+    description: Server → Client. Reply to `ping` with server timestamp.
+    messages:
+      pong:
+        $ref: '#/components/messages/PongResponse'
+
+  brokerInvoke:
+    address: broker.invoke
+    description: |
+      Client → Server. HTTP-shaped broker RPC over WebSocket.
+      Same contract as `POST /api/v1/broker/invoke`.
+    messages:
+      invoke:
+        $ref: '#/components/messages/BrokerInvokeRequest'
+
+  brokerInvokeResult:
+    address: broker.invoke.result
+    description: Server → Client. Successful broker RPC response.
+    messages:
+      result:
+        $ref: '#/components/messages/BrokerInvokeResult'
+
+  brokerInvokeError:
+    address: broker.invoke.error
+    description: Server → Client. Failed broker RPC response.
+    messages:
+      error:
+        $ref: '#/components/messages/BrokerInvokeError'
+
+  # ─── pair:{poolAddress} room ──────────────────────────────────────────────
+
+  pairOhlcvUpdate:
+    address: pair.ohlcv
+    description: |
+      Server → Client (room: `pair:{poolAddress}`).
+      Emitted after each swap is aggregated and `spot_pairs` is updated.
+      Carries the current-day OHLCV snapshot for the pool.
+
+      **Subscribe:** `channels.subscribe` with `["pair:0x{poolAddress}"]`
+
+      **Frequency:** Once per on-chain Swap event that maps to this pool.
+    bindings:
+      socketio:
+        room: pair:{poolAddress}
+    messages:
+      update:
+        $ref: '#/components/messages/PairOhlcvUpdate'
+
+  pairPoolCreated:
+    address: onchain.PoolCreated
+    description: |
+      Server → Client (room: `pair:{poolAddress}`).
+      Emitted when a new constant-product AMM pool is created on-chain.
+    bindings:
+      socketio:
+        room: pair:{poolAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/PoolCreatedEvent'
+
+  pairCLPoolCreated:
+    address: onchain.CLPoolCreated
+    description: |
+      Server → Client (room: `pair:{poolAddress}`).
+      Emitted when a new concentrated-liquidity pool is created on-chain.
+    bindings:
+      socketio:
+        room: pair:{poolAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/CLPoolCreatedEvent'
+
+  # ─── token:{tokenAddress} room ────────────────────────────────────────────
+
+  tokenSwap:
+    address: onchain.Swap
+    description: |
+      Server → Client (room: `token:{tokenAddress}`).
+      Emitted for both `tokenIn` and `tokenOut` addresses on each on-chain swap.
+
+      **Subscribe:** `channels.subscribe` with `["token:0x{tokenAddress}"]`
+    bindings:
+      socketio:
+        room: token:{tokenAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/SwapEvent'
+
+  tokenPoolCreated:
+    address: onchain.PoolCreated
+    description: |
+      Server → Client (room: `token:{tokenAddress}`).
+      Emitted on `token0` and `token1` channels when a pool is created.
+    bindings:
+      socketio:
+        room: token:{tokenAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/PoolCreatedEvent'
+
+  tokenCLPoolCreated:
+    address: onchain.CLPoolCreated
+    description: |
+      Server → Client (room: `token:{tokenAddress}`).
+      Emitted on `token0` and `token1` channels when a CL pool is created.
+    bindings:
+      socketio:
+        room: token:{tokenAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/CLPoolCreatedEvent'
+
+  tokenLiquidityAdded:
+    address: onchain.LiquidityAdded
+    description: |
+      Server → Client (room: `token:{tokenAddress}`).
+      Emitted on `token0` and `token1` channels when liquidity is added to a
+      constant-product pool.
+    bindings:
+      socketio:
+        room: token:{tokenAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/LiquidityAddedEvent'
+
+  tokenCLLiquidityAdded:
+    address: onchain.CLLiquidityAdded
+    description: |
+      Server → Client (room: `token:{tokenAddress}`).
+      Emitted on `token0` and `token1` channels when liquidity is added to a
+      concentrated-liquidity pool.
+    bindings:
+      socketio:
+        room: token:{tokenAddress}
+    messages:
+      event:
+        $ref: '#/components/messages/CLLiquidityAddedEvent'
+
+# ─── Operations ──────────────────────────────────────────────────────────────
+
+operations:
+
+  subscribePairOhlcv:
+    action: receive
+    channel:
+      $ref: '#/channels/pairOhlcvUpdate'
+    description: Receive live OHLCV updates for a pool after subscribing to its `pair:` room.
+    bindings:
+      socketio:
+        room: pair:{poolAddress}
+
+  subscribeTokenSwap:
+    action: receive
+    channel:
+      $ref: '#/channels/tokenSwap'
+    description: Receive swap events for a token after subscribing to its `token:` room.
+    bindings:
+      socketio:
+        room: token:{tokenAddress}
+
+  sendChannelsSubscribe:
+    action: send
+    channel:
+      $ref: '#/channels/channelsSubscribe'
+    description: Join rooms to start receiving scoped events.
+
+  sendBrokerInvoke:
+    action: send
+    channel:
+      $ref: '#/channels/brokerInvoke'
+    description: Call any broker HTTP endpoint over WebSocket.
+
+# ─── Components ──────────────────────────────────────────────────────────────
+
+components:
+
+  messages:
+
+    ChannelsSubscribeRequest:
+      name: ChannelsSubscribeRequest
+      title: Subscribe / Unsubscribe rooms
+      payload:
+        oneOf:
+          - type: object
+            required: [channels]
+            properties:
+              channels:
+                type: array
+                items:
+                  type: string
+                  pattern: '^(pair|token):0x[a-fA-F0-9]{40}$'
+                description: List of room names to join/leave.
+                example: ['pair:0xabc...', 'token:0xdef...']
+          - type: array
+            items:
+              type: string
+            description: Bare array shorthand — same as `{ channels: [...] }`.
+
+    ChannelsSubscribedResponse:
+      name: ChannelsSubscribedResponse
+      title: Subscribed / Unsubscribed acknowledgement
+      payload:
+        type: object
+        required: [clientId, channels]
+        properties:
+          clientId:
+            type: string
+            description: Socket.IO socket ID of this client.
+          channels:
+            type: array
+            items:
+              type: string
+            description: Final list of rooms the client is now in (or has left).
+
+    PongResponse:
+      name: PongResponse
+      payload:
+        type: object
+        required: [ts, id]
+        properties:
+          ts:
+            type: string
+            format: date-time
+            description: Server ISO timestamp.
+          echo:
+            description: Echoed value from the ping payload.
+          id:
+            type: string
+            description: Socket ID.
+
+    BrokerInvokeRequest:
+      name: BrokerInvokeRequest
+      payload:
+        type: object
+        required: [method, path]
+        properties:
+          method:
+            type: string
+            enum: [GET, POST, PUT, DELETE, PATCH]
+          path:
+            type: string
+            description: Broker API path, e.g. `/api/v1/spot-pairs`.
+          query:
+            type: object
+            additionalProperties: true
+          body:
+            description: Request body (for POST/PUT/PATCH).
+
+    BrokerInvokeResult:
+      name: BrokerInvokeResult
+      payload:
+        type: object
+        required: [clientId, result]
+        properties:
+          clientId:
+            type: string
+          result:
+            description: Broker HTTP response body (JSON).
+
+    BrokerInvokeError:
+      name: BrokerInvokeError
+      payload:
+        type: object
+        required: [clientId, error]
+        properties:
+          clientId:
+            type: string
+          error:
+            type: string
+
+    PairOhlcvUpdate:
+      name: PairOhlcvUpdate
+      title: Pair OHLCV snapshot update
+      description: |
+        Emitted to `pair:{poolAddress}` after each swap aggregation.
+        Values are current-UTC-day OHLCV from `spot_pairs` — NOT per-minute/hourly candles.
+        Use the UDF HTTP endpoint for historical bar data.
+      payload:
+        type: object
+        required: [pool, ts, price, open, high, low, baseVolume, quoteVolume]
+        properties:
+          pool:
+            type: string
+            description: Lowercase pool address (`0x` + 40 hex chars).
+            example: '0xabc123...def456'
+          ts:
+            type: number
+            description: Block timestamp of the triggering swap (unix seconds).
+          price:
+            type: number
+            description: Current price — quote tokens per 1 base token (human units).
+          open:
+            type: number
+            description: UTC-day open price.
+          high:
+            type: number
+            description: UTC-day high price.
+          low:
+            type: number
+            description: UTC-day low price.
+          baseVolume:
+            type: number
+            description: UTC-day cumulative base token volume (human units).
+          quoteVolume:
+            type: number
+            description: UTC-day cumulative quote token volume (human units).
+
+    SwapEvent:
+      name: SwapEvent
+      title: on-chain Swap
+      description: |
+        Raw indexed swap payload forwarded to `token:{tokenIn}` and `token:{tokenOut}` rooms.
+        Emitted once per on-chain Swap event (both token channels receive the same payload).
+      payload:
+        type: object
+        required: [type, id, pool, tokenIn, tokenOut, amountIn, amountOut]
+        properties:
+          type:
+            type: string
+            enum: [Swap]
+          id:
+            type: string
+            description: Indexer event ID.
+          pool:
+            type: string
+          tokenIn:
+            type: string
+          tokenOut:
+            type: string
+          amountIn:
+            type: string
+            description: Raw wei amount (stringified bigint).
+          amountOut:
+            type: string
+            description: Raw wei amount (stringified bigint).
+          sender:
+            type: string
+          recipient:
+            type: string
+          blockTimestamp:
+            type: string
+
+    PoolCreatedEvent:
+      name: PoolCreatedEvent
+      title: on-chain PoolCreated (constant-product)
+      payload:
+        type: object
+        required: [type, pool, token0, token1]
+        properties:
+          type:
+            type: string
+            enum: [PoolCreated]
+          pool:
+            type: string
+          token0:
+            type: string
+          token1:
+            type: string
+          stable:
+            type: boolean
+
+    CLPoolCreatedEvent:
+      name: CLPoolCreatedEvent
+      title: on-chain CLPoolCreated (concentrated-liquidity)
+      payload:
+        type: object
+        required: [type, pool, token0, token1]
+        properties:
+          type:
+            type: string
+            enum: [CLPoolCreated]
+          pool:
+            type: string
+          token0:
+            type: string
+          token1:
+            type: string
+          tickSpacing:
+            type: number
+
+    LiquidityAddedEvent:
+      name: LiquidityAddedEvent
+      title: on-chain LiquidityAdded (constant-product)
+      payload:
+        type: object
+        required: [type, pool, token0, token1]
+        properties:
+          type:
+            type: string
+            enum: [LiquidityAdded]
+          pool:
+            type: string
+          token0:
+            type: string
+          token1:
+            type: string
+          amount0:
+            type: string
+          amount1:
+            type: string
+          sender:
+            type: string
+
+    CLLiquidityAddedEvent:
+      name: CLLiquidityAddedEvent
+      title: on-chain CLLiquidityAdded (concentrated-liquidity)
+      payload:
+        type: object
+        required: [type, pool, token0, token1]
+        properties:
+          type:
+            type: string
+            enum: [CLLiquidityAdded]
+          pool:
+            type: string
+          token0:
+            type: string
+          token1:
+            type: string
+          amount0:
+            type: string
+          amount1:
+            type: string
+          tickLower:
+            type: number
+          tickUpper:
+            type: number
+          sender:
+            type: string

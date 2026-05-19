@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiwaTer | Simple Earn – AMCASH+</title>
+    <!-- GiwaTer CSS -->
+    <link rel="stylesheet" href="./GiwaTer/4a1861a3bdd628ec.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gw-neutral-50': '#f8fafc',
+                        'gw-neutral-100': '#f1f5f9',
+                        'gw-neutral-200': '#e2e8f0',
+                        'gw-neutral-300': '#cbd5e1',
+                        'gw-neutral-500': '#64748b',
+                        'gw-neutral-600': '#475569',
+                        'gw-neutral-700': '#334155',
+                        'gw-neutral-800': '#1e293b',
+                        'gw-neutral-900': '#0f172a',
+                        'gw-neutral-1000': '#0c1117',
+                        'gw-primary-100': '#00fea2',
+                        'gw-primary-200': '#00e892',
+                        'gw-primary-600': '#00a86b',
+                        'gw-primary-700': '#00875a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'SpoqaHanSansNeo', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .gradient-divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0, 254, 162, 0) -3.13%, rgb(0, 254, 162) 23.96%, rgba(0, 254, 162, 0) 105.22%);
+        }
+
+        .nav-active-underline {
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, rgba(0, 254, 162, 0) -3.13%, rgb(0, 254, 162) 51.04%, rgba(0, 254, 162, 0) 105.22%) 1 / 1 / 0 stretch;
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #0c1117;
+        }
+
+        .input-field {
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0c1117;
+        }
+
+        .input-field::placeholder {
+            color: #cbd5e1;
+        }
+
+        .input-field:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- ===== HEADER ===== -->
+    <header class="relative z-50">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <!-- Desktop nav pill -->
+            <div class="bg-gw-neutral-1000 rounded-full px-6 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-8">
+                    <!-- Logo -->
+                    <a class="flex items-center" href="https://test.giwater.finance/">
+                        <img alt="GIWATER" height="24" src="./GiwaTer/header-logo.svg">
+                    </a>
+                    <!-- Nav links -->
+                    <nav class="hidden md:flex items-center gap-1">
+                        <a class="px-4 py-2 text-sm font-medium transition-all text-gw-neutral-300 hover:text-white"
+                            href="https://test.giwater.finance/swap">SWAP</a>
+                        <a class="px-4 py-2 text-sm font-medium transition-all text-gw-neutral-300 hover:text-white"
+                            href="https://test.giwater.finance/liquidity">LIQUIDITY</a>
+                        <a class="px-4 py-2 text-sm font-medium transition-all text-gw-neutral-300 hover:text-white"
+                            href="https://test.giwater.finance/vote">LOCK&amp;VOTE</a>
+                        <a class="px-4 py-2 text-sm font-medium transition-all text-gw-primary-100 nav-active-underline"
+                            href="#">EARN</a>
+                        <a class="px-4 py-2 text-sm font-medium transition-all text-gw-neutral-300 hover:text-white"
+                            href="https://test.giwater.finance/portfolio">MY PORTFOLIO</a>
+                    </nav>
+                </div>
+                <!-- Right side: wallet + settings -->
+                <div class="flex items-center gap-3">
+                    <!-- Wallet button -->
+                    <div class="p-[1px] rounded-[29px] overflow-hidden"
+                        style="background: linear-gradient(rgb(255,255,255) -2.5%, rgb(255,255,255) 60.5%, rgba(255,255,255,0.2) 137.5%);">
+                        <button type="button"
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-[28px] text-sm font-bold text-gw-neutral-1000 hover:opacity-90 transition-all"
+                            style="background: linear-gradient(rgb(255,255,255) 0%, rgb(0,254,162) 111.25%);">
+                            <div class="w-5 h-5 bg-gw-primary-700 rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <circle cx="12" cy="12" r="4" />
+                                </svg>
+                            </div>
+                            0x3D…8427
+                        </button>
+                    </div>
+                    <!-- Settings button -->
+                    <div class="hidden md:block relative p-[1px] rounded-[100px] overflow-hidden"
+                        style="background: linear-gradient(rgb(212,212,212) -10%, rgb(75,75,75) 50.5%, rgb(0,0,0) 100%);">
+                        <button
+                            class="flex w-9 h-9 items-center justify-center rounded-[99px] text-gw-neutral-300 hover:text-white transition-all"
+                            style="background: linear-gradient(rgb(196,196,196) -173.75%, rgb(54,54,54) 140%);">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile nav (scrollable) -->
+            <nav class="md:hidden flex items-center gap-2 py-4 overflow-x-auto">
+                <a class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all text-gw-neutral-500 hover:text-gw-neutral-1000"
+                    href="https://test.giwater.finance/swap">SWAP</a>
+                <a class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all text-gw-neutral-500 hover:text-gw-neutral-1000"
+                    href="https://test.giwater.finance/liquidity">LIQUIDITY</a>
+                <a class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all text-gw-neutral-500 hover:text-gw-neutral-1000"
+                    href="https://test.giwater.finance/vote">LOCK&amp;VOTE</a>
+                <a class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all text-gw-neutral-1000 bg-gw-neutral-200"
+                    href="#">EARN</a>
+                <a class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all text-gw-neutral-500 hover:text-gw-neutral-1000"
+                    href="https://test.giwater.finance/portfolio">MY PORTFOLIO</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Page Title + Product Selector -->
+        <div class="flex items-center gap-4 mb-4">
+            <h1 class="text-2xl font-bold text-gw-neutral-1000">Simple Earn</h1>
+        </div>
+
+        <!-- Product Selector Row -->
+        <div class="flex items-center gap-3 mb-4">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden bg-white border border-gw-neutral-200">
+                    <img src="./img/amcash+.svg" alt="AMCASH+" class="w-full h-full object-contain">
+                </div>
+                <button class="flex items-center gap-1.5 text-base font-semibold text-gw-neutral-1000">
+                    AMCASH+
+                    <svg class="w-4 h-4 text-gw-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <p class="text-sm text-gw-neutral-600 mb-6">
+            Lock apxUSD to receive apyUSD, a yield bearing asset backed by variable rate perpetual preferred stock.
+        </p>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
+            <div class="border border-gw-neutral-200 rounded-xl p-4">
+                <div class="text-xs text-gw-neutral-500 mb-2">My Protocol Balance</div>
+                <div class="text-xl font-bold text-gw-neutral-1000">$0.00</div>
+            </div>
+            <div class="border border-gw-neutral-200 rounded-xl p-4">
+                <div class="text-xs text-gw-neutral-500 mb-2">Price</div>
+                <div class="text-xl font-bold text-gw-neutral-1000">$102.7978</div>
+            </div>
+            <div class="border border-gw-neutral-200 rounded-xl p-4">
+                <div class="text-xs text-gw-neutral-500 mb-2">APY</div>
+                <div class="text-xl font-bold text-gw-neutral-1000">3.42%</div>
+            </div>
+            <div class="border border-gw-neutral-200 rounded-xl p-4">
+                <div class="text-xs text-gw-neutral-500 mb-2">TVL</div>
+                <div class="text-xl font-bold text-gw-neutral-1000">$48,294,087</div>
+            </div>
+        </div>
+
+        <!-- Note -->
+        <p class="text-xs text-gw-neutral-500 mb-8">*The balance in this module is aggregated across all networks.</p>
+
+        <!-- Chart + Subscribe Panel -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-10">
+
+            <!-- Left: APY Chart -->
+            <div class="lg:col-span-3 border border-gw-neutral-200 rounded-2xl p-6 flex flex-col">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs text-gw-neutral-500 font-medium">AMCASH+ APY</span>
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="text-xs text-gw-neutral-500 hover:text-gw-neutral-1000 px-2 py-1 rounded transition-colors"
+                            id="btn-1m">1M</button>
+                        <button
+                            class="text-xs text-gw-neutral-500 hover:text-gw-neutral-1000 px-2 py-1 rounded transition-colors"
+                            id="btn-6m">6M</button>
+                        <button
+                            class="text-xs text-gw-neutral-500 hover:text-gw-neutral-1000 px-2 py-1 rounded transition-colors"
+                            id="btn-1y">1Y</button>
+                        <button
+                            class="text-xs font-semibold text-gw-neutral-1000 px-2 py-1 rounded bg-gw-neutral-100 transition-colors"
+                            id="btn-all">All</button>
+                    </div>
+                </div>
+                <div class="text-3xl font-bold text-gw-neutral-1000 mb-4">11.48%</div>
+                <div class="relative flex-1">
+                    <canvas id="apyChart"></canvas>
+                </div>
+                <!-- X-axis labels -->
+                <div class="flex justify-between mt-2 px-1">
+                    <span class="text-[10px] text-gw-neutral-400">9 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">10 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">11 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">12 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">13 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">14 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">15 Apr</span>
+                    <span class="text-[10px] text-gw-neutral-400">16 Apr</span>
+                </div>
+            </div>
+
+            <!-- Right: Subscribe/Redeem Panel -->
+            <div class="lg:col-span-2 border border-gw-neutral-200 rounded-2xl overflow-hidden">
+                <!-- Tabs -->
+                <div class="flex border-b border-gw-neutral-200">
+                    <button id="tab-subscribe"
+                        class="flex-1 py-3.5 text-sm font-semibold text-gw-neutral-1000 tab-active transition-all">
+                        Subscribe
+                    </button>
+                    <button id="tab-redeem"
+                        class="flex-1 py-3.5 text-sm font-medium text-gw-neutral-400 hover:text-gw-neutral-700 transition-all">
+                        Redeem
+                    </button>
+                </div>
+
+                <div class="p-5 space-y-4">
+                    <!-- Network -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1.5 text-xs text-gw-neutral-500">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke-width="2" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+                            </svg>
+                            <span class="leading-none self-center">Network</span>
+
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-medium text-gw-neutral-700">
+                            <div class="flex-shrink-0 w-4 h-4 rounded-full overflow-hidden bg-white">
+                                <img src="./img/giwa.svg" alt="GIWA" class="w-full h-full object-contain">
+                            </div>
+                            <span class="leading-none self-center">GIWA</span>
+                        </div>
+                    </div>
+
+                    <!-- Enter Amount -->
+                    <div class="border border-gw-neutral-200 rounded-xl p-3.5">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-gw-neutral-500">Enter Amount</span>
+                            <button class="text-xs font-weight 400" style="color: #949494;">+ Add to
+                                wallet</button>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <input type="text" placeholder="0.00" class="input-field text-lg font-semibold">
+                            <button
+                                class="flex items-center gap-1.5 bg-gw-neutral-100 hover:bg-gw-neutral-200 rounded-full px-3 py-1.5 text-sm font-semibold text-gw-neutral-1000 transition-colors whitespace-nowrap">
+                                <div class="w-4 h-4 rounded-full overflow-hidden bg-white">
+                                    <img src="./img/tether-usdt-logo.svg" alt="USDT"
+                                        class="w-full h-full object-contain">
+                                </div>
+                                USDT
+                                <svg class="w-3.5 h-3.5 text-gw-neutral-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-xs text-gw-neutral-400">$0.00</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gw-neutral-400">Balance: 0.00</span>
+                                <button
+                                    class="text-xs font-weight 400 text-black bg-gw-primary-100 hover:bg-gw-primary-200 text-gw-neutral-1000 rounded px-1.5 py-0.5 transition-colors">Max</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Swap Arrow -->
+                    <div class="flex justify-center">
+                        <button
+                            class="w-8 h-8 border border-gw-neutral-200 rounded-full flex items-center justify-center hover:bg-gw-neutral-100 transition-colors">
+                            <svg class="w-4 h-4 text-gw-neutral-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Receive Amount -->
+                    <div class="border border-gw-neutral-200 rounded-xl p-3.5">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-gw-neutral-500">Receive Amount</span>
+                            <button class="text-xs font-weight 400" style="color: #949494;">+ Add to
+                                wallet</button>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <input type="text" placeholder="0.00" class="input-field text-lg font-semibold" readonly>
+                            <button
+                                class="flex items-center gap-1.5 bg-gw-neutral-100 hover:bg-gw-neutral-200 rounded-full px-3 py-1.5 text-sm font-semibold text-gw-neutral-1000 transition-colors whitespace-nowrap">
+                                <div class="w-4 h-4 rounded-full overflow-hidden bg-white">
+                                    <img src="./img/amcash+.svg" alt="AMCASH+" class="w-full h-full object-contain">
+                                </div>
+                                AMCASH+
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-xs text-gw-neutral-400">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Conversion rate -->
+                    <p class="text-xs text-gw-neutral-500 text-left">1 USDC = 0.8382 AMCASH+</p>
+
+                    <!-- Information -->
+                    <div class="border border-gw-neutral-200 rounded-xl p-3.5">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gw-neutral-700 mb-1.5">
+                            <svg class="w-3.5 h-3.5 text-gw-neutral-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke-width="2" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 16v-4M12 8h.01" />
+                            </svg>
+                            Information
+                        </div>
+                        <p class="text-xs text-gw-neutral-500 leading-relaxed">
+                            Locking is instant. Unlocking back to AMCASH+ requires a 7 days cooldown and is only
+                            supported on Giwa Chain.
+                        </p>
+                    </div>
+
+                    <!-- Connect Wallet -->
+                    <button
+                        class="w-full py-3.5 font-semibold rounded-xl transition-colors text-sm text-gw-neutral-1000"
+                        style="background-color: #00FEA2;">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Information -->
+        <div class="mb-10">
+            <h2 class="text-lg font-bold text-gw-neutral-1000 mb-4">Basic Information</h2>
+
+            <div class="space-y-3 text-sm text-gw-neutral-600 leading-relaxed">
+                <p>AMCASH+ is a 1:1 asset-backed token collateralized by the ChinaAMC USD Digital Money Market Fund
+                    Class B USD, which invests in short-term deposits and high quality money market instruments to
+                    achieve long-term return in US Dollars in line with prevailing money market rates, with primary
+                    considerations of both capital security and liquidity. There can be no assurance that the Sub-Fund
+                    will achieve its investment objective. The Sub-Fund seeks to provide investors with a stable and
+                    consistent investment return over medium to long term.</p>
+                <p>AMCASH+ is issued by Reale Assets Limited ("Reale"), a BVI private company acting as bare trust, with
+                    tokenisation and token administrative services delivered by Asseto Fintech Limited (together with
+                    its affiliates, "Asseto").</p>
+                <p>ChinaAMC USD Digital Money Market Fund Class B USD (the "Sub-Fund") is a sub-fund of ChinaAMC Digital
+                    OFC (the "Company"), which is a public umbrella open-ended fund company ("OFC") established under
+                    Hong Kong law with variable capital and with segregated liability between sub-funds.</p>
+            </div>
+        </div>
+
+        <!-- Underlying Assets Details -->
+        <div class="mb-10">
+            <h2 class="text-lg font-bold text-gw-neutral-1000 mb-4">Underlying Assets Details</h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-gw-neutral-100">
+                            <th class="pb-3 text-xs font-semibold text-gw-neutral-500 uppercase tracking-wider pr-6">
+                                Asset</th>
+                            <th class="pb-3 text-xs font-semibold text-gw-neutral-500 uppercase tracking-wider pr-6">
+                                Allocation</th>
+                            <th class="pb-3 text-xs font-semibold text-gw-neutral-500 uppercase tracking-wider pr-6">
+                                Yield</th>
+                            <th class="pb-3 text-xs font-semibold text-gw-neutral-500 uppercase tracking-wider">Maturity
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gw-neutral-100">
+                        <tr>
+                            <td class="py-3 pr-6 text-gw-neutral-700 font-medium">US Treasury Bills</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">42.5%</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">5.28%</td>
+                            <td class="py-3 text-gw-neutral-700">&lt; 90 days</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 pr-6 text-gw-neutral-700 font-medium">Bitcoin</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">31.2%</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">4.95%</td>
+                            <td class="py-3 text-gw-neutral-700">Overnight</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 pr-6 text-gw-neutral-700 font-medium">Ethereum</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">18.7%</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">5.12%</td>
+                            <td class="py-3 text-gw-neutral-700">&lt; 60 days</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 pr-6 text-gw-neutral-700 font-medium">Cash &amp; Equivalents</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">7.6%</td>
+                            <td class="py-3 pr-6 text-gw-neutral-700">4.80%</td>
+                            <td class="py-3 text-gw-neutral-700">Daily</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-[#0f1419] text-gw-neutral-400 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <img alt="GIWATER" height="20" src="./GiwaTer/header-logo.svg" class="opacity-60">
+                </div>
+                <p class="text-xs text-gw-neutral-500">© 2024 GiwaTer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // APY Chart
+        const ctx = document.getElementById('apyChart').getContext('2d');
+
+        const labels = ['9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr'];
+        const data = [88, 89, 90.5, 91, 93, 96, 98.5, 100];
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, 'rgba(0, 254, 162, 0.3)');
+        gradient.addColorStop(1, 'rgba(0, 254, 162, 0.0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    borderColor: '#00fea2',
+                    borderWidth: 2,
+                    fill: true,
+                    backgroundColor: gradient,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    pointHoverBackgroundColor: '#00fea2',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: '#0c1117',
+                        titleColor: '#cbd5e1',
+                        bodyColor: '#00fea2',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: (ctx) => ` $${ctx.parsed.y}M`
+                        }
+                    }
+                },
+                scales: {
+                    x: { display: false },
+                    y: {
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            color: 'rgba(0,0,0,0.04)',
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { size: 10 },
+                            callback: (v) => `$${v}M`,
+                            padding: 8
+                        },
+                        border: { display: false },
+                        padding: 0
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+
+        // Tab switching
+        const tabSubscribe = document.getElementById('tab-subscribe');
+        const tabRedeem = document.getElementById('tab-redeem');
+
+        tabSubscribe.addEventListener('click', () => {
+            tabSubscribe.classList.add('tab-active', 'font-semibold', 'text-gw-neutral-1000');
+            tabSubscribe.classList.remove('text-gw-neutral-400', 'font-medium');
+            tabRedeem.classList.remove('tab-active', 'font-semibold', 'text-gw-neutral-1000');
+            tabRedeem.classList.add('text-gw-neutral-400', 'font-medium');
+        });
+
+        tabRedeem.addEventListener('click', () => {
+            tabRedeem.classList.add('tab-active', 'font-semibold', 'text-gw-neutral-1000');
+            tabRedeem.classList.remove('text-gw-neutral-400', 'font-medium');
+            tabSubscribe.classList.remove('tab-active', 'font-semibold', 'text-gw-neutral-1000');
+            tabSubscribe.classList.add('text-gw-neutral-400', 'font-medium');
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<h2>Lock/Vote 대시보드 레이아웃</h2>
+<p class="subtitle">어떤 구조가 어울리나요? 하나를 선택해주세요.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="A" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family:monospace;font-size:11px;background:#1a1a2e;color:#aaa;padding:12px;border-radius:6px;line-height:1.6">
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="background:#6366f1;color:white;padding:3px 10px;border-radius:4px;font-size:10px">🔒 Lock</div>
+          <div style="background:#333;padding:3px 10px;border-radius:4px;font-size:10px">🗳 Vote</div>
+          <div style="background:#333;padding:3px 10px;border-radius:4px;font-size:10px">📊 Per Pair</div>
+        </div>
+        <div style="background:#111;border-radius:6px;padding:8px;margin-bottom:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
+            <div style="background:#1e1e3f;padding:6px;border-radius:4px;font-size:9px;text-align:center">Total Locked<br><span style="color:#6366f1;font-size:13px;font-weight:bold">12.4M tPT</span></div>
+            <div style="background:#1e1e3f;padding:6px;border-radius:4px;font-size:9px;text-align:center">Active Locks<br><span style="color:#6366f1;font-size:13px;font-weight:bold">847</span></div>
+            <div style="background:#1e1e3f;padding:6px;border-radius:4px;font-size:9px;text-align:center">Avg Duration<br><span style="color:#6366f1;font-size:13px;font-weight:bold">182d</span></div>
+          </div>
+          <div style="background:#0f172a;height:60px;border-radius:4px;display:flex;align-items:flex-end;padding:4px;gap:2px">
+            <div style="background:#6366f1;width:8px;height:30px;border-radius:2px 2px 0 0;opacity:0.7"></div>
+            <div style="background:#6366f1;width:8px;height:40px;border-radius:2px 2px 0 0;opacity:0.7"></div>
+            <div style="background:#6366f1;width:8px;height:35px;border-radius:2px 2px 0 0;opacity:0.7"></div>
+            <div style="background:#6366f1;width:8px;height:50px;border-radius:2px 2px 0 0;opacity:0.7"></div>
+            <div style="background:#6366f1;width:8px;height:45px;border-radius:2px 2px 0 0"></div>
+            <div style="background:#6366f1;width:8px;height:52px;border-radius:2px 2px 0 0"></div>
+            <div style="flex:1"></div>
+            <div style="color:#555;font-size:8px;align-self:center">Total Locked Over Time</div>
+          </div>
+        </div>
+        <div style="background:#111;border-radius:4px;padding:6px;font-size:9px">
+          <div style="color:#666;margin-bottom:4px">Recent Transactions</div>
+          <div style="color:#aaa">0xabc...123 locked 50,000 tPT for 365d</div>
+          <div style="color:#aaa">0xdef...456 extended lock #42 by 90d</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 탭 구조</h3>
+      <p>Lock / Vote / Per Pair 를 별도 탭으로 분리. 탭마다 통계 카드 + 차트 + 트랜잭션 테이블.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="B" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family:monospace;font-size:11px;background:#1a1a2e;color:#aaa;padding:12px;border-radius:6px;line-height:1.6">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+          <div style="background:#111;border-radius:6px;padding:6px">
+            <div style="color:#6366f1;font-size:9px;margin-bottom:4px">🔒 LOCK OVERVIEW</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px">
+              <div style="background:#1e1e3f;padding:4px;border-radius:3px;font-size:8px;text-align:center">Total<br><span style="color:#6366f1">12.4M</span></div>
+              <div style="background:#1e1e3f;padding:4px;border-radius:3px;font-size:8px;text-align:center">Locks<br><span style="color:#6366f1">847</span></div>
+            </div>
+            <div style="background:#0f172a;height:40px;border-radius:3px;display:flex;align-items:flex-end;padding:3px;gap:1px">
+              <div style="background:#6366f1;width:6px;height:20px;border-radius:1px;opacity:0.7"></div>
+              <div style="background:#6366f1;width:6px;height:30px;border-radius:1px;opacity:0.7"></div>
+              <div style="background:#6366f1;width:6px;height:25px;border-radius:1px;opacity:0.7"></div>
+              <div style="background:#6366f1;width:6px;height:35px;border-radius:1px"></div>
+            </div>
+          </div>
+          <div style="background:#111;border-radius:6px;padding:6px">
+            <div style="color:#10b981;font-size:9px;margin-bottom:4px">🗳 VOTE OVERVIEW</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px">
+              <div style="background:#052e16;padding:4px;border-radius:3px;font-size:8px;text-align:center">Total VP<br><span style="color:#10b981">8.2M</span></div>
+              <div style="background:#052e16;padding:4px;border-radius:3px;font-size:8px;text-align:center">Voters<br><span style="color:#10b981">312</span></div>
+            </div>
+            <div style="background:#0f172a;height:40px;border-radius:3px;display:flex;align-items:center;justify-content:center;gap:3px">
+              <div style="background:#10b981;width:16px;height:16px;border-radius:50%;opacity:0.7"></div>
+              <div style="background:#6366f1;width:10px;height:10px;border-radius:50%;opacity:0.7"></div>
+              <div style="background:#f59e0b;width:8px;height:8px;border-radius:50%;opacity:0.7"></div>
+              <div style="font-size:8px;color:#555">Pie chart</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#111;border-radius:6px;padding:6px">
+          <div style="color:#f59e0b;font-size:9px;margin-bottom:4px">📊 VOTE BY PAIR</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="display:flex;align-items:center;gap:4px;font-size:8px">
+              <div style="color:#aaa;width:60px">USDT/WGIWA</div>
+              <div style="background:#6366f1;height:6px;width:60%;border-radius:2px"></div>
+              <div style="color:#6366f1">38%</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:8px">
+              <div style="color:#aaa;width:60px">USDC/WGIWA</div>
+              <div style="background:#10b981;height:6px;width:30%;border-radius:2px"></div>
+              <div style="color:#10b981">22%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 단일 스크롤 페이지</h3>
+      <p>Lock 섹션 + Vote 섹션 + Per-pair 섹션이 세로로 배치. 한 화면에서 전체 현황 파악.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="C" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family:monospace;font-size:11px;background:#1a1a2e;color:#aaa;padding:12px;border-radius:6px;line-height:1.6;display:flex;gap:8px">
+        <div style="width:80px;background:#111;border-radius:6px;padding:6px;font-size:8px">
+          <div style="color:#666;margin-bottom:6px">PAIRS</div>
+          <div style="background:#6366f1;color:white;padding:2px 4px;border-radius:3px;margin-bottom:3px">USDT/WGIWA</div>
+          <div style="padding:2px 4px;margin-bottom:3px;color:#aaa">USDC/WGIWA</div>
+          <div style="padding:2px 4px;margin-bottom:3px;color:#aaa">ETH/WGIWA</div>
+          <div style="padding:2px 4px;color:#aaa">BTC/WGIWA</div>
+        </div>
+        <div style="flex:1;background:#111;border-radius:6px;padding:6px">
+          <div style="color:#6366f1;font-size:9px;margin-bottom:6px">USDT/WGIWA — Lock &amp; Vote</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px">
+            <div style="background:#1e1e3f;padding:4px;border-radius:3px;font-size:8px">Lock: <span style="color:#6366f1">4.2M tPT</span></div>
+            <div style="background:#052e16;padding:4px;border-radius:3px;font-size:8px">Vote: <span style="color:#10b981">38%</span></div>
+          </div>
+          <div style="background:#0f172a;height:50px;border-radius:3px;display:flex;align-items:flex-end;padding:3px;gap:2px">
+            <div style="background:#6366f1;width:8px;height:25px;border-radius:1px;opacity:0.7"></div>
+            <div style="background:#6366f1;width:8px;height:35px;border-radius:1px;opacity:0.7"></div>
+            <div style="background:#6366f1;width:8px;height:42px;border-radius:1px"></div>
+            <div style="background:#10b981;width:8px;height:30px;border-radius:1px;opacity:0.7"></div>
+            <div style="background:#10b981;width:8px;height:38px;border-radius:1px"></div>
+          </div>
+          <div style="font-size:8px;color:#555;margin-top:4px">Recent: 0xabc locked 10k for this pair's gauge</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 페어 사이드바 + 상세 뷰</h3>
+      <p>좌측에 페어 리스트, 우측에 선택한 페어의 Lock/Vote 통합 상세 대시보드.</p>
+    </div>
+  </div>
+
+</div>

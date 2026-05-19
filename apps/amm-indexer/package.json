@@ -1,0 +1,45 @@
+{
+  "name": "amm-indexer",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm run typecheck && mkdir -p dist && echo ok > dist/.buildstamp",
+    "dev": "ponder dev",
+    "start": "ponder start",
+    "db": "ponder db",
+    "db:list": "ponder db list",
+    "db:prune": "ponder db prune",
+    "clean:amm-indexer-db": "ponder db prune",
+    "codegen": "ponder codegen",
+    "railway:build": "pnpm --filter @giwater/shared build && pnpm run typecheck",
+    "railway:start": "bash scripts/start-maybe-prune.sh",
+    "railway:prune": "bash scripts/prune-app-schema.sh",
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@giwater/shared": "workspace:*",
+    "@hono/zod-openapi": "^0.18.4",
+    "@scalar/hono-api-reference": "^0.10.7",
+    "amqp-connection-manager": "^4.1.14",
+    "amqplib": "^0.10.4",
+    "drizzle-orm": "0.41.0",
+    "hono": "^4.5.0",
+    "ponder": "^0.16.6",
+    "viem": "^2.21.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.6",
+    "@types/node": "^20.9.0",
+    "@types/pg": "^8.11.0",
+    "eslint": "^8.53.0",
+    "eslint-config-ponder": "^0.13.0",
+    "pg": "^8.11.3",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

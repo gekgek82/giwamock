@@ -1,0 +1,52 @@
+/**
+ * Portfolio API Type Definitions
+ *
+ * Re-exported from @giwater/shared (single source of truth).
+ */
+export type { PaginationInfo } from '@giwater/shared';
+export type { BaseTokenInfo as TokenInfo } from '@giwater/shared';
+export type {
+  FeeBreakdown,
+  PortfolioOverview,
+  PriceRange,
+  LiquidityPosition,
+  LiquidityPositionsResponse,
+  LockPosition,
+  LockPositionsResponse,
+  VotePosition,
+  VotePositionsResponse,
+  PointEarningType,
+  PointEarningCategory,
+  PointEarningStatus,
+  PointEarning,
+  PointEarningsQuery,
+  PointPositionsResponse,
+  ClaimPointEarningResponse,
+  TransactionType,
+  TransactionToken,
+  PortfolioTransaction,
+  TransactionsResponse,
+  TransactionQuery,
+  ClaimType,
+  ClaimRequest,
+  ClaimTransaction,
+  ClaimResponse,
+  ClaimPositionPointsRequest,
+  ClaimPositionPointsResponse,
+  TPointLockPosition,
+  TPointLocksResponse,
+  TPointLockPokeResponse,
+  TPointVotingPower,
+  TPointVotePosition,
+  TPointVotesResponse,
+  ClaimableReward,
+  ClaimableRewardsResponse,
+  PortfolioApiError,
+  LpStakeIntent,
+  SetLpStakeIntentRequest,
+  LpStakeIntentsResponse,
+  VoteIncentive,
+  AddVoteIncentiveRequest,
+  VoteIncentivesResponse,
+  PoolEpochIncentivesResponse,
+} from '@giwater/shared';

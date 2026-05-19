@@ -1,0 +1,71 @@
+---
+description: Task management workflow for docs/kanban board
+globs: docs/kanban/**/*.md
+alwaysApply: false
+---
+
+# Task Management Rules
+
+Rules for the project's kanban board (`docs/kanban/`) task management.
+
+## When Adding a Task
+
+1. Create a new `.md` file in `docs/kanban/TODO/`
+2. Use the naming convention: `NN-short-description.md` (e.g., `02-user-auth.md`)
+3. Follow the task file format in `docs/kanban/README.md`
+4. Update the counts in `docs/kanban/README.md`
+
+## When Starting a Task
+
+1. Check the Priority Order in `docs/kanban/README.md`
+2. Select the highest-priority TODO file
+3. Review the file contents before starting work
+4. Move the file to `docs/kanban/DOING/`
+5. Update the counts in `docs/kanban/README.md`
+
+## When Completing a Task (Required)
+
+When completing a task, you **must** do the following:
+
+### 1. Move the File
+
+```bash
+mv docs/kanban/DOING/{task-file}.md docs/kanban/DONE/
+```
+
+### 2. Update File Contents
+
+```markdown
+# Status change
+
+- **Status**: TODO → - **Status**: DONE
+
+# Complete checklist items
+
+- [ ] item → - [x] item
+```
+
+### 3. Update README.md Counts
+
+Update the table in `docs/kanban/README.md`:
+
+```markdown
+| TODO  | N | # decrease
+| DONE  | M | # increase
+```
+
+## Task Status
+
+| Status | Folder   |
+| ------ | -------- |
+| TODO   | `TODO/`  |
+| DOING  | `DOING/` |
+| DONE   | `DONE/`  |
+
+## Priority
+
+| Priority | Level  |
+| -------- | ------ |
+| High     | Do first |
+| Medium   | Do next  |
+| Low      | Do later |

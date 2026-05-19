@@ -1,0 +1,140 @@
+---
+description: Next.js frontend development patterns
+globs: apps/web/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Frontend Patterns
+
+## Component Structure
+
+```
+apps/web/src/
+├── app/           # App Router pages
+├── components/    # React components
+│   ├── ui/        # Reusable UI components
+│   └── features/  # Feature-specific components
+├── hooks/         # Custom React hooks
+└── lib/           # Utilities and helpers
+```
+
+## Server vs Client Components
+
+```typescript
+// Default: Server Component (no directive needed)
+export default function Page() {
+  return <div>Server rendered</div>;
+}
+
+// Client Component: add 'use client' at top
+'use client';
+export function InteractiveComponent() {
+  const [state, setState] = useState();
+  return <button onClick={() => setState(...)}>Click</button>;
+}
+```
+
+## API Calls to Backend
+
+```typescript
+// Use environment variable for API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// Import routes from shared
+import { API_ROUTES } from "@giwater/shared";
+
+const response = await fetch(`${API_URL}${API_ROUTES.USERS}`);
+```
+
+## `@giwater/shared` imports (bundling)
+
+Import **`@giwater/shared` only** — never `@giwater/shared/nest/swagger`. That subpath exists for broker/gateway OpenAPI classes (`@nestjs/swagger`). Pulling it into `apps/web` drags Nest into the Next.js bundle and breaks production builds. Use shared **interfaces and types** from the main entry; Swagger DTO classes are not for the web app.
+
+## Styling
+
+- Use Tailwind CSS for styling
+- Follow mobile-first responsive design
+- Use CSS variables for theming
+
+## Post-Edit Verification (REQUIRED)
+
+**After every web file edit (`apps/web/**`), you MUST verify the app still works.\*\*
+
+This is the most important rule in this file. Skipping verification leads to broken builds that the user discovers later.
+
+### Step 1: Check if dev server is running
+
+```bash
+# Check if the Next.js dev server is running
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3007
+```
+
+- If `000` → dev server is not running. Start it with `pnpm dev` (or `pnpm dev:web`).
+- If `200` → proceed to Step 2.
+- If `500` → there's an error. Proceed to Step 2 for details.
+
+### Step 2: Fetch the page and check for errors
+
+```bash
+# Fetch the page HTML and check for runtime errors
+curl -s http://localhost:3007 2>&1 | head -100
+```
+
+**What to look for:**
+
+- `Cannot find module './XXX.js'` → **Stale webpack cache** (see Troubleshooting below)
+- `Error: ` or `error` in the output → Code error, inspect and fix
+- `Internal Server Error` or `500` → Server-side rendering error
+- Normal HTML with `<div>`, `<html>` → Page is working correctly
+
+### Step 3: Auto-fix based on error type
+
+| Error Pattern                         | Cause                       | Fix                                             |
+| ------------------------------------- | --------------------------- | ----------------------------------------------- |
+| `Cannot find module './NNN.js'`       | Stale `.next/` cache        | `rm -rf apps/web/.next` then restart dev server |
+| `Module not found: Can't resolve 'X'` | Missing import / dependency | Check import paths, install missing packages    |
+| `SyntaxError` or `TypeError`          | Code bug in your edit       | Review and fix the code you just changed        |
+| `Invalid hook call`                   | Hooks in server component   | Add `'use client'` directive or restructure     |
+| `500 Internal Server Error`           | Server-side rendering crash | Check terminal logs for the full stack trace    |
+
+### Step 4: Re-verify after fix
+
+After applying any fix, **repeat Steps 1-2** to confirm the error is resolved. Do not move on to other tasks until the page loads successfully.
+
+### Quick Verification Command (copy-paste ready)
+
+```bash
+# One-liner: check if the web app is healthy
+curl -s -o /dev/null -w "Web status: %{http_code}\n" http://localhost:3007 && curl -s http://localhost:3007 | grep -c "<!DOCTYPE\|<html" > /dev/null && echo "✓ Page OK" || echo "✗ Page has issues - check output above"
+```
+
+## Troubleshooting
+
+### "Cannot find module './XXX.js'" Runtime Error
+
+This error occurs when the Next.js webpack cache (`.next/`) becomes stale — typically after files are modified while the dev server is running.
+
+**How to fix:**
+
+1. Stop the dev server (or it will auto-restart on file change)
+2. Delete the cache: `rm -rf apps/web/.next`
+3. Restart: `pnpm dev` (or `pnpm dev:clean` which does steps 2+3 together)
+
+**When you encounter this error as an AI agent:**
+
+- Do NOT try to debug the missing module — the `.js` file number is a webpack chunk hash, not your code.
+- Run `rm -rf apps/web/.next` and restart the dev server. This resolves the issue 100% of the time.
+- If the error persists after cache clear, THEN look for actual code issues.
+
+### Next.js dev server port conflict
+
+If port 3007 is already in use, Next.js will auto-select the next available port and display it in the terminal output. This is normal behavior — check the terminal for the actual port number.
+
+### Build verification (for production)
+
+```bash
+# Full build check (catches more issues than dev mode)
+pnpm build 2>&1 | tail -20
+```
+
+If the build fails, fix all errors before considering the task complete.

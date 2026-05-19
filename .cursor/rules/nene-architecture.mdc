@@ -1,0 +1,97 @@
+---
+description: Nene monorepo architecture and key patterns
+alwaysApply: true
+---
+
+# Nene Architecture Rules
+
+## Project Structure
+
+This is a full-stack monorepo:
+
+- `apps/web/` - Next.js 16 frontend (port 3007)
+- `apps/api/` - NestJS 11 backend (port 3044)
+- `apps/broker/` - NestJS broker (trading DB / RabbitMQ). **Postgres schema:** SQL migrations only (`apps/broker/migrations/*.sql`); TypeORM `synchronize: false`. Before editing broker entities or DB shape, read `apps/broker/prompts/broker-db-schema-and-migrations.md`.
+- `packages/shared/` - Shared types, DTOs, constants
+
+## Key Patterns
+
+### Type Sharing (Critical)
+
+**NEVER duplicate types.** Always use `@giwater/shared`:
+
+```typescript
+// ✅ GOOD - import from shared
+import { User, CreateUserDto } from '@giwater/shared';
+
+// ❌ BAD - duplicating types
+interface User { id: string; ... }
+```
+
+### API Routes
+
+Use shared constants for API routes:
+
+```typescript
+// packages/shared/src/constants/index.ts
+export const API_ROUTES = {
+  USERS: "/api/users",
+};
+
+// Use in both apps
+import { API_ROUTES } from "@giwater/shared";
+```
+
+### Validation
+
+DTOs with class-validator are shared:
+
+```typescript
+// packages/shared/src/types/index.ts
+export class CreateUserDto {
+  @IsEmail()
+  email: string;
+}
+```
+
+## Documentation Structure
+
+```
+docs/
+├── API.md              # API endpoint reference
+├── overview/           # Project overview & architecture
+│   └── ARCHITECTURE.md
+├── kanban/             # Task management (TODO/DOING/DONE)
+│   ├── README.md       # Board status & priority order
+│   ├── TODO/
+│   ├── DOING/
+│   └── DONE/
+└── pages/              # Page-specific documentation
+```
+
+## Before Making Changes
+
+1. Check `docs/overview/ARCHITECTURE.md` for current patterns
+2. Check `docs/API.md` for existing endpoints
+3. Check `docs/kanban/README.md` for task priorities
+
+## After Making Changes
+
+1. Update `docs/API.md` when adding/modifying endpoints
+2. Move completed tasks in `docs/kanban/` (DOING → DONE)
+3. Add new TODO items to `docs/kanban/TODO/` when needed
+4. Run `pnpm build` to verify shared package changes work
+5. **If you edited `apps/web/**`files** → Run the Post-Edit Verification from`frontend-patterns.mdc`:
+   ```bash
+   curl -s -o /dev/null -w "Web: %{http_code}\n" http://localhost:3007
+   ```
+   If the status is not `200`, diagnose and fix before moving on.
+6. **If you edited `apps/api/**` files\*\* → Verify the API:
+   ```bash
+   curl -s -o /dev/null -w "API: %{http_code}\n" http://localhost:3044/api/health
+   ```
+
+## Common Errors
+
+- **"Cannot find module './XXX.js'"** in Next.js → Stale webpack cache. Run `rm -rf apps/web/.next` and restart the dev server. Do NOT debug the chunk file — it's always a cache issue.
+- **Port already in use** → Another process is using the port. Check with `lsof -i :3007` or `lsof -i :4000`, or use `pnpm dev:clean` to restart fresh.

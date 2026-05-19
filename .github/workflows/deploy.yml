@@ -1,0 +1,35 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          API_ENV: ${{ secrets.API_ENV }}
+          WEB_ENV: ${{ secrets.WEB_ENV }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          command_timeout: 12m
+          envs: API_ENV,WEB_ENV
+          script: |
+            cd ~/giwater && git fetch origin main && git reset --hard origin/main
+            export API_ENV="${API_ENV}"
+            export WEB_ENV="${WEB_ENV}"
+            bash ~/giwater/scripts/deploy.sh

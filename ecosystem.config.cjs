@@ -1,0 +1,51 @@
+// PM2 env는 .env보다 우선합니다 (dotenv는 기존 환경변수를 덮어쓰지 않음).
+// PORT는 여기서만 관리하고, GitHub Secrets(API_ENV/WEB_ENV)에는 PORT를 넣지 마세요.
+module.exports = {
+  apps: [
+    {
+      name: "giwater-api",
+      cwd: "./apps/api",
+      script: "dist/main.js",
+      instances: 1,
+      exec_mode: "fork",
+      env: {
+        NODE_ENV: "production",
+        PORT: 4000,
+      },
+      max_restarts: 10,
+      min_uptime: "10s",
+      restart_delay: 5000,
+      error_file: "../../logs/api-error.log",
+      out_file: "../../logs/api-out.log",
+      log_date_format: "YYYY-MM-DD HH:mm:ss Z",
+      merge_logs: true,
+      max_memory_restart: "512M",
+      kill_timeout: 5000,
+      listen_timeout: 10000,
+      watch: false,
+    },
+    {
+      name: "giwater-web",
+      cwd: "./apps/web",
+      script: ".next/standalone/apps/web/server.js",
+      instances: 1,
+      exec_mode: "fork",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3003,
+        HOSTNAME: "0.0.0.0",
+      },
+      max_restarts: 10,
+      min_uptime: "10s",
+      restart_delay: 5000,
+      error_file: "../../logs/web-error.log",
+      out_file: "../../logs/web-out.log",
+      log_date_format: "YYYY-MM-DD HH:mm:ss Z",
+      merge_logs: true,
+      max_memory_restart: "512M",
+      kill_timeout: 5000,
+      listen_timeout: 10000,
+      watch: false,
+    },
+  ],
+};
