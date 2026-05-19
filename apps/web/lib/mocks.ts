@@ -1520,10 +1520,9 @@ const handlers: MockHandler[] = [
         (acc, l) => acc + Number(l.amount),
         0,
       );
-      // Preview: pretend the user already holds 20k tPOINT on-chain so the
-      // Create-Lock form has a non-zero `tpointBalance` (= onChainBalance
-      // − totalLocked) and `CreateTPointLockForm` can actually submit.
-      const onChainBalance = 20_000;
+      // Preview: pretend the user already holds 16,500 tPOINT on-chain so
+      // after subtracting the locked 6,500, the visible balance is ~10,000.
+      const onChainBalance = 16_500;
       return {
         summary: {
           totalPoints: totalPoints.toFixed(2),
