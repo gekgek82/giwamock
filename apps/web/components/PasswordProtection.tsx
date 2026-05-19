@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MOCK_DATA_ENABLED } from "@/lib/config";
 
 const STORAGE_KEY = "giwater_auth";
 const AUTH_TOKEN = "verified";
@@ -13,14 +12,9 @@ export function PasswordProtection({ children }: { children: React.ReactNode }) 
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (MOCK_DATA_ENABLED) return;
     const saved = localStorage.getItem(STORAGE_KEY);
     setIsAuthenticated(saved === AUTH_TOKEN);
   }, []);
-
-  if (MOCK_DATA_ENABLED) {
-    return <>{children}</>;
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
