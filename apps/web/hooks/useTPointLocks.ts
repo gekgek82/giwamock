@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { portfolioApi } from "@/lib/portfolioApi";
+import { isMockMode, getMockDemoAddress } from "@/lib/mockTransactions";
 import type { TPointLockPosition } from "@/types/portfolio";
 
 export interface TPointUserLock {
@@ -49,11 +50,12 @@ function transformLock(lock: TPointLockPosition): TPointUserLock {
 
 export function useTPointUserLocks() {
   const { address } = useAccount();
+  const effectiveAddress = address ?? (isMockMode() ? getMockDemoAddress() : undefined);
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["tpoint-locks", address],
-    queryFn: () => portfolioApi.getTPointLocks(address!),
-    enabled: !!address,
+    queryKey: ["tpoint-locks", effectiveAddress],
+    queryFn: () => portfolioApi.getTPointLocks(effectiveAddress!),
+    enabled: !!effectiveAddress,
     staleTime: 15_000,
   });
 
